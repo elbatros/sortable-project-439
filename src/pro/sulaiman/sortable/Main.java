@@ -18,7 +18,7 @@ public class Main {
         SimpleTimer.toggle("total");
 
         KeywordLinker keywordLinker = new KeywordLinker();
-        keywordLinker.link("products.txt", "listings.txt");
+        keywordLinker.link(productsPathname, listingsPathname);
 
         SimpleTimer.toggle("total");
         System.out.println("Done. Spent " + SimpleTimer.getDuration("total").toString().replace("PT", ""));
