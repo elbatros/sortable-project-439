@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "Sortable Coding Take-Home Project by Anas H. Sulaiman"
 
 set -e
@@ -41,7 +42,7 @@ fi
 
 echo "Verifying dependencies..."
 if sha1sum 'workspace/json.jar' | grep -q '949abe1460757b8dc9902c562f83e49675444572'; then
-    echo "Dependecies are good"
+    echo "Dependencies are good"
 else
     echo "json.jar is invalid"
     echo "Please remove it from workspace directory and run again"
@@ -49,13 +50,13 @@ else
 fi
 
 echo "Compiling project sources..."
-find -name "*.java" > sources.txt
+find ./src -name "*.java" > sources.txt
 javac -cp "./workspace/json.jar" -d "./build" @sources.txt
 rm sources.txt
-echo "Compliation done"
+echo "Compilation done"
 
 echo "Running the project..."
-if [ ! -f "products.txt" ]; then
+if [ ! -f "workspace/products.txt" ]; then
     echo "products.txt was not found in workspace directory."
     echo "Downloading project input files..."
     wget -q -O 'workspace/challenge_data.tar.gz' 'https://s3.amazonaws.com/sortable-public/challenge/challenge_data_20110429.tar.gz'
@@ -63,3 +64,4 @@ if [ ! -f "products.txt" ]; then
 fi
 
 java -cp "./build:./workspace/json.jar" pro.sulaiman.sortable.Main 'workspace/products.txt' 'workspace/listings.txt'
+curl -XPOST -F file=@results.txt https://challenge-check.sortable.com/validate
